@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import './CardPayment.css'
 
 class CardPayment extends Component {
@@ -35,26 +34,27 @@ class CardPayment extends Component {
         return (
             <div className='card-payment'>
                 <div className='creedit-card'>
-                <input placeholder="номер карты" type="email" />
-                <input placeholder="ММ/ГГ" type="email" />
-                <input placeholder="CVC" type="email" />
-
+                <img alt="VisaMasterCard not found" height='30px' src="./VisaMasterCard.jpg" />
+                    <input className='card-payment-input card-number' placeholder="номер карты" type="text" />
+                    <input className='card-payment-input card-year' placeholder="ММ/ГГ" type="text" />
+                    <input className='card-payment-input card-csv' placeholder="CVC" type="text" />
                 </div>
-                <div>
+                <div className='discrepyion-payment'>
                     <article class="field">
-                        <input placeholder="от 1000 до 75000 ₽" type="email" />
+                        <input className='card-payment-input' placeholder="от 1000 до 75000 ₽" type="text" />
                         <p>Сумма</p>
                     </article>
 
                     <article class="field">
-                        <input placeholder="до 150 символов" type="text" />
+                        <input className='card-payment-input' placeholder="до 150 символов" type="text" />
                         <p>Коментарий</p>
                     </article>
 
                     <article class="field">
-                        <input placeholder="для квитанции об оплате" type="text" />
+                        <input className='card-payment-input' placeholder="для квитанции об оплате" type="email" />
                         <p>Ваша эл.почта</p>
                     </article>
+                    <div class="button25">заплатить</div>
                 </div>
             </div>
         );

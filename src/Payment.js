@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import CardPayment from './CardPayment'
-import './App.css';
+import InternetBankPayment from './InternetBankPayment'
+import Pay from './Pay'
+import './Payment.css';
 
 class Payment extends Component {
     constructor() {
         super();
         this.state = {
-            tabName: 'request payment',
+            tabName: 'pay',
             paymentMethod: 'card'
         }
         this.switchRequestPayment = this.switchRequestPayment.bind(this);
@@ -39,11 +41,13 @@ class Payment extends Component {
                     <div className='tab' style={this.state.tabName === 'request payment' ? { color: 'deepskyblue' } : {}} onClick={this.switchRequestPayment}>Запросить платеж</div>
                 </div>
                 <br/>
-                <div>
+                { this.state.tabName === 'request payment' && <div>
                     <div className='tab' style={this.state.paymentMethod === 'card' ? { color: 'deepskyblue' } : {}} onClick={this.switchPaymentMethodOnCard}>С карты любого банка</div>
                     <div className='tab' style={this.state.paymentMethod === 'Internet bank' ? { color: 'deepskyblue' } : {}} onClick={this.switchPaymentMethodOnInternetBank}>Из своего интерент банка</div>
-                </div>
+                </div>}
                 { (this.state.tabName === 'request payment' && this.state.paymentMethod === 'card') && <CardPayment/>}
+                { (this.state.tabName === 'request payment' && this.state.paymentMethod === 'Internet bank') && <InternetBankPayment/>}
+                { this.state.tabName === 'pay' && <Pay/>}
             </div>
         );
     }

@@ -1,75 +1,3 @@
-.submit 
-{
-    margin-top: 100px;
-    width: 600px;
-    height: 400px;
-    margin-left: auto;
-    margin-right: auto;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-}
-
-.letter
-{
-    width: 600px;
-    height: 400px;
-    margin-top: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    background: rgb(240, 240, 240);
-    border: 1px solid #ccc;
-}
-
-.letterText
-{
-    margin-right: 35%;
-    margin-left: 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 110%;
-    font-weight: normal;
-}
-
-.letterCopyright
-{
-    float: right;
-    margin-right: 10px;
-}
-
-.letterImage
-{
-    float: right;
-    margin-top: 20px;
-}
-
-.letterFooter
-{
-    margin-top: 120px;
-    border-top: 1px solid #ccc;
-    margin-right: 20px;
-    margin-left: 20px;
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 110%;
-    font-weight: normal;
-}
-
-.text
-{
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: 100%;
-    font-weight: normal;
-}
-
-h2 
-{
-    margin-left: 30%;
-}
-
-.simpletext 
-{
-    margin-left: 3%;
-    margin-right: 20%;
-}
-
 .field 
 {
     margin-left: 3%;
@@ -77,121 +5,112 @@ h2
     margin-bottom: 25px;
 }
 
-input 
+.field .card-payment-input 
 {
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    background: #fff !important;
+    border: none;
+    border-bottom: 1px solid gray; 
     outline: none;
     height: 24px;
-    width: 400px;
-    color: #000;
+    color: gray;
     font-size: 16px;
     font-family: Arial, Helvetica, sans-serif;
-    margin: 5px;
-    margin-top: -7px;
     padding-left: 6px;
     float: right;
 }
 
-input:focus 
+.card-payment-input:focus 
 {
     color: #000;
-    border: 1px solid #000;
+    border-bottom: 1px solid #000;
 }
 
-input[type='submit']
+.creedit-card
 {
-    color: #000;
-    height: 40px;
-    width: 150px;
-    float: left;
-}
-
-input[type='checkbox'] 
-{
-    display: none;
-}
-
-.container 
-{
-    display: block;
-    position: relative;
-    padding-left: 35px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    cursor: pointer;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-}
-  
-.container input 
-{
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
-}
-  
-.checkmark 
-{
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 15px;
-    width: 15px;
-    background-color: white;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-}
-  
-.container:hover input ~ .checkmark 
-{
-    background-color: #ccc;
-}
-  
-.container input:checked ~ .checkmark 
-{
-    background-color: #2196f3;
-}
-  
-.checkmark:after 
-{
-    content: '';
-    position: absolute;
-    display: none;
-}
-  
-.container input:checked ~ .checkmark:after 
-{
-    display: block;
-}
-  
-.container .checkmark:after 
-{
-    left: 5px;
-    top: 3px;
-    width: 3px;
-    height: 5px;
-    border: solid white;
-    border-width: 0 3px 3px 0;
-    -webkit-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
-
-.creedit-card{
     height: 300px;
     width: 500px;
 }
 
-.creedit-card input{
+.creedit-card .card-payment-input
+{
     border-bottom: 1px solid gray; 
 }
 
-.card-payment{
+.card-payment
+{
     margin: 5%;
 }
+
+.creedit-card{
+    height: 200px;
+    width: 400px;
+    background: whitesmoke;
+    box-shadow: 0 0 30px gray;
+    border-radius: 20px; 
+}
+
+.creedit-card > .card-number
+{
+    margin: 35px 40px 0 40px;
+    width: 320px;
+}
+
+.creedit-card > .card-year
+{
+    margin: 20px 0px 0 40px;
+    width: 120px;
+}
+
+.creedit-card > .card-csv
+{
+    margin: 20px 40px 0 40px;
+    width: 100px;
+}
+
+.creedit-card > .card-payment-input 
+{
+    border: 1px solid whitesmoke;
+    border-bottom: 1px solid gray;
+    background: whitesmoke;
+    outline: none;
+    height: 24px;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-left: 6px;
+}
+
+.discrepyion-payment
+{
+    margin-left: 450px;
+    margin-top: -230px;
+    width: 400px;
+}
+
+.creedit-card img
+{
+    margin: 10px;
+    float: right;
+    height: 40px;
+}
+
+div.button25 {
+    position: relative;
+    display: inline-block;
+    width: 10em;
+    height: 2.5em;
+    line-height: 2.5em;
+    vertical-align: middle;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 -1px 1px #777;
+    color: #fff;
+    outline: none;
+    border: 2px solid #F64C2B;
+    border-radius: 5px;
+    box-shadow: 0 0 0 60px rgba(0,0,0,0) inset, .1em .1em .2em #800;
+    background: linear-gradient(#FB9575, #F45A38 48%, #EA1502 52%, #F02F17);
+  }
+  div.button25:active {
+    top: .1em;
+    left: .1em;
+    box-shadow: 0 0 0 60px rgba(0,0,0,.05) inset;
+  }

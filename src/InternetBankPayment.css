@@ -1,0 +1,87 @@
+.field-internet-bank 
+{
+    margin-left: 3%;
+    margin-right: 10%;
+    margin-bottom: 30px;
+}
+
+.field-internet-bank .internet-bank-input 
+{
+    border: none;
+    border-bottom: 1px solid gray; 
+    outline: none;
+    height: 24px;
+    width: 500px;
+    color: gray;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-left: 6px;
+    float: right;
+}
+
+.internet-bank-input:focus 
+{
+    color: #000;
+    border-bottom: 1px solid #000;
+}
+
+.card-payment
+{
+    margin: 5%;
+}
+
+div.button25 {
+    position: relative;
+}
+
+div.button25:active {
+    top: .1em;
+    left: .1em;
+    box-shadow: 0 0 0 60px rgba(0,0,0,.05) inset;
+}
+
+small {
+    float: right;
+    margin-left: 10px;
+    margin-top: 29px;
+    color: gray;
+}
+
+.purpose-payment {
+    margin-right: -130px;
+}
+
+.phone-small {
+    margin-top: 0px;
+}
+
+.nds18 {
+    margin-right: -70px;
+}
+
+.nds10 {
+    margin-right: -130px;
+}
+
+.nds-none {
+    margin-right: -190px;
+}
+
+.nds-input {
+    border: none;
+    border-bottom: 2px solid gold; 
+    outline: none;
+    height: 24px;
+    width: 500px;
+    color: gray;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-left: 6px;
+    float: right;
+}
+
+.clear{
+    color: deepskyblue;
+    margin: 3px;
+    padding: 2px;
+}
