@@ -5,29 +5,90 @@ class InternetBankPayment extends Component {
     constructor() {
         super();
         this.state = {
-            nds: 0,
-            paymentMethod: 'card'
+            cardNumber: '',
+            cardYear: '',
+            sum: '',
+            comment: '',
+            email: '',
+            CVC: ''
         }
-        this.switchRequestPayment = this.switchRequestPayment.bind(this);
-        this.switchNDS = this.switchNDS.bind(this);
-        this.switchPaymentMethodOnCard = this.switchPaymentMethodOnCard.bind(this);
-        this.switchPaymentMethodOnInternetBank = this.switchPaymentMethodOnInternetBank.bind(this);
+        this.changeCardNumber = this.changeCardNumber.bind(this);
+        this.changeCVC = this.changeCVC.bind(this);
+        this.changeCardYear = this.changeCardYear.bind(this);
+        this.changeSum = this.changeSum.bind(this);
+        this.changeComment = this.changeComment.bind(this);
+        this.changeEmail = this.changeEmail.bind(this);
+        this.sendToServer = this.sendToServer.bind(this);
     }
 
-    switchRequestPayment() {
-        this.setState({ tabName: 'request payment' });
+    changeCardNumber() {
+        let value = document.getElementById("cardNumber").value;
+        let newValue = ""
+        const len = Math.min(value.length, 19);
+        for(let i= 0; i < len; i++){
+            if (/^[0-9]{1}$/.test(value[i]))
+                newValue += value[i];
+        }
+        this.setState({ cardNumber: newValue });
+        document.getElementById("cardNumber").value = newValue;
     }
 
-    switchNDS(proc) {
-        this.setState({ nds: proc });
+    changeCVC() {
+        let value = document.getElementById("CVC").value;
+        let newValue = ""
+        const len = Math.min(value.length, 3);
+        for(let i= 0; i < len; i++){
+            if (/^[0-9]{1}$/.test(value[i]))
+                newValue += value[i];
+        }
+        this.setState({ CVC: newValue });
+        document.getElementById("CVC").value = newValue;
     }
 
-    switchPaymentMethodOnCard() {
-        this.setState({ paymentMethod: 'card' });
+    changeCardYear() {
+        let value = document.getElementById("cardYear").value;
+        let newValue = ""
+        const len = Math.min(value.length, 5);
+        for(let i= 0; i < len; i++){
+            if (/^[0-9]{1}$/.test(value[i]) || (i === 2 && value[i] === '/'))
+                newValue += value[i];
+        }
+        if (newValue.length === 2 && this.state.cardYear.length === 1)
+            newValue += '/';
+        this.setState({ cardYear: newValue });
+        document.getElementById("cardYear").value = newValue;
     }
 
-    switchPaymentMethodOnInternetBank() {
-        this.setState({ paymentMethod: 'Internet bank' });
+    changeSum() {
+        let value = document.getElementById("sum").value;
+        let newValue = ""
+        const len = Math.min(value.length, 5);
+        for(let i= 0; i < len; i++){
+            if (/^[0-9]{1}$/.test(value[i]) || (i === 2 && value[i] === '/'))
+                newValue += value[i];
+        }
+        const sumINT = Number.parseInt(value);
+        if(sumINT > 75000 || sumINT < 1000)
+            newValue = 'err';
+        this.setState({ sum: newValue });
+    }
+
+    changeComment() {
+        let value = document.getElementById("comment").value;
+        if (value.length <= 150)
+            this.setState({ comment: value });
+    }
+
+    changeEmail() {
+        let value = document.getElementById("email").value;
+        if (value.indexOf('@') > 0)
+            this.setState({ email: value });
+        else
+            this.setState({ email: 'err' });
+    }
+
+    sendToServer(){
+        alert('send');
     }
 
     render() {
@@ -61,7 +122,7 @@ class InternetBankPayment extends Component {
                         <input className='internet-bank-input' type="text" />
                         <p>Сколько</p>
                     </article>
-                    <div class="button25">заплатить</div>
+                    <div class="button25" onClick={this.sendToServer}>заплатить</div>
                 </div>
             </div>
         );
