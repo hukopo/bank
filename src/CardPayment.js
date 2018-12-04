@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import './CardPayment.css'
 
+import NotesActions from './action/NotesActions';
+
+
 class CardPayment extends Component {
     constructor() {
         super();
@@ -19,13 +22,14 @@ class CardPayment extends Component {
         this.changeComment = this.changeComment.bind(this);
         this.changeEmail = this.changeEmail.bind(this);
         this.sendToServer = this.sendToServer.bind(this);
+        this.clearFields = this.clearFields.bind(this);
     }
 
     changeCardNumber() {
         let value = document.getElementById("cardNumber").value;
         let newValue = ""
         const len = Math.min(value.length, 19);
-        for(let i= 0; i < len; i++){
+        for (let i = 0; i < len; i++) {
             if (/^[0-9]{1}$/.test(value[i]))
                 newValue += value[i];
         }
@@ -37,7 +41,7 @@ class CardPayment extends Component {
         let value = document.getElementById("CVC").value;
         let newValue = ""
         const len = Math.min(value.length, 3);
-        for(let i= 0; i < len; i++){
+        for (let i = 0; i < len; i++) {
             if (/^[0-9]{1}$/.test(value[i]))
                 newValue += value[i];
         }
@@ -49,7 +53,7 @@ class CardPayment extends Component {
         let value = document.getElementById("cardYear").value;
         let newValue = ""
         const len = Math.min(value.length, 5);
-        for(let i= 0; i < len; i++){
+        for (let i = 0; i < len; i++) {
             if (/^[0-9]{1}$/.test(value[i]) || (i === 2 && value[i] === '/'))
                 newValue += value[i];
         }
@@ -63,12 +67,12 @@ class CardPayment extends Component {
         let value = document.getElementById("sum").value;
         let newValue = ""
         const len = Math.min(value.length, 5);
-        for(let i= 0; i < len; i++){
+        for (let i = 0; i < len; i++) {
             if (/^[0-9]{1}$/.test(value[i]) || (i === 2 && value[i] === '/'))
                 newValue += value[i];
         }
         const sumINT = Number.parseInt(value);
-        if(sumINT > 75000 || sumINT < 1000)
+        if (sumINT > 75000 || sumINT < 1000)
             newValue = 'err';
         this.setState({ sum: newValue });
     }
@@ -87,32 +91,77 @@ class CardPayment extends Component {
             this.setState({ email: 'err' });
     }
 
-    sendToServer(){
-        alert('send');
+    clearFields() {
+        document.getElementById("cardYear").value = '';
+        document.getElementById("cardNumber").value = '';
+        document.getElementById("cardYear").value = '';
+        document.getElementById("CVC").value = '';
+        document.getElementById("sum").value = '';
+        document.getElementById("comment").value = '';
+        document.getElementById("email").value = '';
+    }
+
+    canSend() {
+        return this.state.cardNumber 
+            || this.state.cardYear
+            || this.state.sum
+            || this.state.comment
+            || this.state.email
+            || this.state.CVC
+    }
+
+    sendToServer() {
+        if (!this.canSend()){
+            alert('fail');
+            return;
+        }
+
+        const newNote = {
+            cardNum: this.state.cardNumber,
+            cardYear: this.state.cardYear,
+            sum: this.state.sum,
+            comment: this.state.comment,
+            email: this.state.email,
+            cardCVC: this.state.CVC
+        };
+        NotesActions.createNote(newNote);
+
+        this.setState({
+            cardNumber: '',
+            cardYear: '',
+            sum: '',
+            comment: '',
+            email: '',
+            CVC: ''
+        });
+
+        this.clearFields()
+        
+        alert('success');
     }
 
     render() {
         return (
             <div className='card-payment'>
                 <div className='creedit-card'>
-                    <img alt="VisaMasterCard not found" height='30px' src="./VisaMasterCard.jpg"/>
-                    <input id="cardNumber" className='card-payment-input card-number' placeholder="номер карты" type="text" onChange={this.changeCardNumber}/>
-                    <input id="cardYear" className='card-payment-input card-year' placeholder="ММ/ГГ" type="text" onChange={this.changeCardYear}/>
-                    <input id="CVC" className='card-payment-input card-csv' placeholder="CVC" type="text" onChange={this.changeCVC}/>
+                    <img alt="VisaMasterCard not found" height='30px' src="./VisaMasterCard.jpg" />
+                    <input id="cardNumber" className='card-payment-input card-number' placeholder="номер карты" type="text" onChange={this.changeCardNumber} />
+                    <input id="cardYear" className='card-payment-input card-year' placeholder="ММ/ГГ" type="text" onChange={this.changeCardYear} />
+                    <input id="CVC" className='card-payment-input card-csv' placeholder="CVC" type="text" onChange={this.changeCVC} />
                 </div>
                 <div className='discrepyion-payment'>
                     <article class="field">
-                        <input id="sum" className='card-payment-input' style={this.state.sum === 'err' ? {borderBottomColor: 'red'} : null} placeholder="от 1000 до 75000 ₽" type="text" onChange={this.changeSum}/>
+                        <input id="sum" className='card-payment-input' style={this.state.sum === 'err' ? { borderBottomColor: 'red' } : null} placeholder="от 1000 до 75000 ₽" type="text" onChange={this.changeSum} />
                         <p>Сумма</p>
                     </article>
 
                     <article class="field">
-                        <input id="comment" className='card-payment-input' placeholder="до 150 символов" type="text" onChange={this.changeComment}/>
+                        <input id="comment" className='card-payment-input' placeholder="до 150 символов" type="text" onChange={this.changeComment} />
                         <p>Коментарий</p>
                     </article>
 
                     <article class="field">
-                        <input id="email" className='card-payment-input' style={this.state.email === 'err' ? {borderBottomColor: 'red'} : null} placeholder="для квитанции об оплате" type="email" onChange={this.changeEmail}/>
+                        <input id="email" className='card-payment-input' style={this.state.email === 'err' ? { borderBottomColor: 'red' } : null} placeholder="для квитанции об оплате" type="email" onChange={this.changeEmail} />
                         <p>Ваша эл.почта</p>
                     </article>
                     <div class="button25" onClick={this.sendToServer}>заплатить</div>

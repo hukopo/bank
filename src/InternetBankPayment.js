@@ -1,94 +1,108 @@
 import React, { Component } from 'react';
+
+import NotesActions from './action/NotesActions';
+
 import './InternetBankPayment.css'
 
 class InternetBankPayment extends Component {
     constructor() {
         super();
         this.state = {
-            cardNumber: '',
-            cardYear: '',
+            inn: '',
+            scoreNum: '',
+            description: '',
             sum: '',
-            comment: '',
-            email: '',
-            CVC: ''
+            nds: '0'
         }
-        this.changeCardNumber = this.changeCardNumber.bind(this);
-        this.changeCVC = this.changeCVC.bind(this);
-        this.changeCardYear = this.changeCardYear.bind(this);
+        this.changeInn = this.changeInn.bind(this);
+        this.changeScoreNum = this.changeScoreNum.bind(this);
+        this.changeDescription = this.changeDescription.bind(this);
         this.changeSum = this.changeSum.bind(this);
-        this.changeComment = this.changeComment.bind(this);
-        this.changeEmail = this.changeEmail.bind(this);
+        this.clearFields = this.clearFields.bind(this);
+        this.canSend = this.canSend.bind(this);
         this.sendToServer = this.sendToServer.bind(this);
     }
 
-    changeCardNumber() {
-        let value = document.getElementById("cardNumber").value;
+    changeInn() {
+        let value = document.getElementById("inn").value;
+        let newValue = ""
+        const len = Math.min(value.length, 10);
+        for(let i= 0; i < len; i++){
+            if (/^[0-9]{1}$/.test(value[i]))
+                newValue += value[i];
+        }
+        this.setState({ inn: newValue });
+        document.getElementById("inn").value = newValue;
+    }
+
+    changeScoreNum() {
+        let value = document.getElementById("scoreNum").value;
         let newValue = ""
         const len = Math.min(value.length, 19);
         for(let i= 0; i < len; i++){
             if (/^[0-9]{1}$/.test(value[i]))
                 newValue += value[i];
         }
-        this.setState({ cardNumber: newValue });
-        document.getElementById("cardNumber").value = newValue;
+        this.setState({ scoreNum: newValue });
+        document.getElementById("scoreNum").value = newValue;
     }
-
-    changeCVC() {
-        let value = document.getElementById("CVC").value;
-        let newValue = ""
-        const len = Math.min(value.length, 3);
-        for(let i= 0; i < len; i++){
-            if (/^[0-9]{1}$/.test(value[i]))
-                newValue += value[i];
-        }
-        this.setState({ CVC: newValue });
-        document.getElementById("CVC").value = newValue;
-    }
-
-    changeCardYear() {
-        let value = document.getElementById("cardYear").value;
-        let newValue = ""
-        const len = Math.min(value.length, 5);
-        for(let i= 0; i < len; i++){
-            if (/^[0-9]{1}$/.test(value[i]) || (i === 2 && value[i] === '/'))
-                newValue += value[i];
-        }
-        if (newValue.length === 2 && this.state.cardYear.length === 1)
-            newValue += '/';
-        this.setState({ cardYear: newValue });
-        document.getElementById("cardYear").value = newValue;
+    
+    changeDescription() {
+        let value = document.getElementById("description").value;
+        if (value.length <= 150)
+            this.setState({ description: value });
     }
 
     changeSum() {
         let value = document.getElementById("sum").value;
         let newValue = ""
-        const len = Math.min(value.length, 5);
+        const len = Math.min(value.length, 7);
         for(let i= 0; i < len; i++){
-            if (/^[0-9]{1}$/.test(value[i]) || (i === 2 && value[i] === '/'))
+            if (/^[0-9]{1}$/.test(value[i]))
                 newValue += value[i];
         }
-        const sumINT = Number.parseInt(value);
-        if(sumINT > 75000 || sumINT < 1000)
-            newValue = 'err';
         this.setState({ sum: newValue });
+        document.getElementById("sum").value = newValue;
     }
 
-    changeComment() {
-        let value = document.getElementById("comment").value;
-        if (value.length <= 150)
-            this.setState({ comment: value });
+    clearFields() {
+        document.getElementById("inn").value = '';
+        document.getElementById("scoreNum").value = '';
+        document.getElementById("sum").value = '';
+        document.getElementById("description").value = '';
     }
 
-    changeEmail() {
-        let value = document.getElementById("email").value;
-        if (value.indexOf('@') > 0)
-            this.setState({ email: value });
-        else
-            this.setState({ email: 'err' });
+    canSend() {
+        return this.state.inn 
+            || this.state.scoreNum
+            || this.state.description
+            || this.state.sum
     }
 
-    sendToServer(){
-        alert('send');
+    sendToServer() {
+        if (!this.canSend()){
+            alert('fail');
+            return;
+        }
+
+        const newNote = {
+            scoreNum: this.state.scoreNum,
+            payerNum: this.state.inn,
+            sum: this.state.sum,
+            comment: this.state.description
+        };
+        NotesActions.createNote(newNote);
+
+        this.setState({
+            inn: '',
+            scoreNum: '',
+            description: '',
+            sum: ''
+        });
+
+        this.clearFields()
+        
+        alert('success');
     }
 
     render() {
@@ -96,7 +110,7 @@ class InternetBankPayment extends Component {
             <div className='card-payment'>
                 <div>
                     <article class="field-internet-bank">
-                        <input className='internet-bank-input' placeholder="ИНН или название платильшека" type="text" />
+                        <input id="inn" className='internet-bank-input' placeholder="ИНН или название платильшека" type="text" onChange={this.changeInn}/>
                         <p>От кого</p>
                     </article>
 
@@ -105,13 +119,13 @@ class InternetBankPayment extends Component {
                     </article>
 
                     <article class="field-internet-bank">
-                        <input className='internet-bank-input' type="text" />
+                        <input id="scoreNum" className='internet-bank-input' type="text" onChange={this.changeScoreNum}/>
                         <small className='purpose-payment'>назначение платежа</small>
                         <p>Номер счета</p>
                     </article>
 
                     <article class="field-internet-bank">
-                        <input className='nds-input' placeholder={`НДС ${this.state.nds}%`} type="text" />
+                        <input id="description" className='nds-input' placeholder={`НДС ${this.state.nds}%`} type="text" onChange={this.changeDescription}/>
                         <small onClick={() => this.switchNDS(18)} style={this.state.nds === 18 ? { color: 'deepskyblue' } : null} className='nds18'>НДС 18%</small>
                         <small onClick={() => this.switchNDS(10)} style={this.state.nds === 10 ? { color: 'deepskyblue' } : null} className='nds10'>НДС 10%</small>
                         <small onClick={() => this.switchNDS(0)} style={this.state.nds === 0 ? { color: 'deepskyblue' } : null} className='nds-none'>Без НДС</small>
@@ -119,7 +133,7 @@ class InternetBankPayment extends Component {
                     </article>
 
                     <article class="field-internet-bank">
-                        <input className='internet-bank-input' type="text" />
+                        <input id="sum" className='internet-bank-input' type="text" onChange={this.changeSum}/>
                         <p>Сколько</p>
                     </article>
                     <div class="button25" onClick={this.sendToServer}>заплатить</div>
