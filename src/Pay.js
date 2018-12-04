@@ -93,6 +93,15 @@ class Pay extends Component {
         document.getElementById("scoreNum").value = '';
         document.getElementById("sum").value = '';
         document.getElementById("description").value = '';
+        
+        this.setState({
+            inn: '',
+            scoreNum: '',
+            description: '',
+            sum: '',
+            email: '',
+            phoneNum: ''
+        });
     }
 
     canSend() {
@@ -119,15 +128,6 @@ class Pay extends Component {
             phoneNum: this.state.phoneNum
         };
         NotesActions.createNote(newNote);
-
-        this.setState({
-            inn: '',
-            scoreNum: '',
-            description: '',
-            sum: '',
-            email: '',
-            phoneNum: ''
-        });
 
         this.clearFields()
         
@@ -179,7 +179,7 @@ class Pay extends Component {
                     <div className="button25">Создать платеж</div>
                     <br />
                     <div className='clear'>
-                        <a className='clear' href='/'>Отчистить форму</a>
+                        <a className='clear' href='/#/home' onClick={this.clearFields}>Отчистить форму</a>
                     </div>
                 </div>
             </div>

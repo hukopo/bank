@@ -99,6 +99,15 @@ class CardPayment extends Component {
         document.getElementById("sum").value = '';
         document.getElementById("comment").value = '';
         document.getElementById("email").value = '';
+        
+        this.setState({
+            cardNumber: '',
+            cardYear: '',
+            sum: '',
+            comment: '',
+            email: '',
+            CVC: ''
+        });
     }
 
     canSend() {
@@ -125,15 +134,6 @@ class CardPayment extends Component {
             cardCVC: this.state.CVC
         };
         NotesActions.createNote(newNote);
-
-        this.setState({
-            cardNumber: '',
-            cardYear: '',
-            sum: '',
-            comment: '',
-            email: '',
-            CVC: ''
-        });
 
         this.clearFields()
         

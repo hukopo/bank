@@ -70,6 +70,13 @@ class InternetBankPayment extends Component {
         document.getElementById("scoreNum").value = '';
         document.getElementById("sum").value = '';
         document.getElementById("description").value = '';
+        
+        this.setState({
+            inn: '',
+            scoreNum: '',
+            description: '',
+            sum: ''
+        });
     }
 
     canSend() {
@@ -92,13 +99,6 @@ class InternetBankPayment extends Component {
             comment: this.state.description
         };
         NotesActions.createNote(newNote);
-
-        this.setState({
-            inn: '',
-            scoreNum: '',
-            description: '',
-            sum: ''
-        });
 
         this.clearFields()
         

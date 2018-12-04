@@ -1,5 +1,7 @@
 .main{
   margin: -10px 10%;
+  min-width: 900px;
+  max-width: 1200px;
   border-right: 4px solid whitesmoke;
   border-left: 4px solid whitesmoke;
   padding: 0 40px;
