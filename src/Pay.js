@@ -176,7 +176,7 @@ class Pay extends Component {
                         <input id="email" className='internet-bank-input' placeholder='для уведомлений об оплате' type="email" onChange={this.changeEmail}/>
                         <p>Эл.почта</p>
                     </article>
-                    <div className="button25">Создать платеж</div>
+                    <div className="button25" onClick={this.sendToServer}>Создать платеж</div>
                     <br />
                     <div className='clear'>
                         <a className='clear' href='/#/home' onClick={this.clearFields}>Отчистить форму</a>
