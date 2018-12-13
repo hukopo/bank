@@ -42,6 +42,46 @@ const NoteActions = {
         .catch(err =>
             console.error(err)
         );
+    },
+
+    loadNotesPay() {
+        AppDispatcher.dispatch({
+            type: Constants.LOAD_NOTES_REQUEST
+        });
+
+        api.listNotesPay()
+        .then(({ data }) =>
+            AppDispatcher.dispatch({
+                type: Constants.LOAD_NOTES_SUCCESS,
+                notes: data
+            })
+        )
+        .catch(err =>
+            AppDispatcher.dispatch({
+                type: Constants.LOAD_NOTES_FAIL,
+                error: err
+            })
+        );
+    },
+
+    createNotePay(note) {
+        api.createNotePay(note)
+        .then(() =>
+            this.loadNotes()
+        )
+        .catch(err =>
+            console.error(err)
+        );
+    },
+
+    deleteNotePay(noteId) {
+        api.deleteNotePay(noteId)
+        .then(() =>
+            this.loadNotes()
+        )
+        .catch(err =>
+            console.error(err)
+        );
     }
 };
 

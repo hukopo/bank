@@ -73,7 +73,7 @@ class CardPayment extends Component {
         }
         const sumINT = Number.parseInt(value);
         if (sumINT > 75000 || sumINT < 1000)
-            newValue = 'err';
+            newValue = null;
         this.setState({ sum: newValue });
     }
 
@@ -88,7 +88,7 @@ class CardPayment extends Component {
         if (value.indexOf('@') > 0)
             this.setState({ email: value });
         else
-            this.setState({ email: 'err' });
+            this.setState({ email: null });
     }
 
     clearFields() {
@@ -112,11 +112,11 @@ class CardPayment extends Component {
 
     canSend() {
         return this.state.cardNumber 
-            || this.state.cardYear
-            || this.state.sum
-            || this.state.comment
-            || this.state.email
-            || this.state.CVC
+            && this.state.cardYear
+            && this.state.sum
+            && this.state.comment
+            && this.state.email
+            && this.state.CVC
     }
 
     sendToServer() {
@@ -151,7 +151,7 @@ class CardPayment extends Component {
                 </div>
                 <div className='discrepyion-payment'>
                     <article class="field">
-                        <input id="sum" className='card-payment-input' style={this.state.sum === 'err' ? { borderBottomColor: 'red' } : null} placeholder="от 1000 до 75000 ₽" type="text" onChange={this.changeSum} />
+                        <input id="sum" className='card-payment-input' style={this.state.sum === null ? { borderBottomColor: 'red' } : null} placeholder="от 1000 до 75000 ₽" type="text" onChange={this.changeSum} />
                         <p>Сумма</p>
                     </article>
 
@@ -161,10 +161,10 @@ class CardPayment extends Component {
                     </article>
 
                     <article class="field">
-                        <input id="email" className='card-payment-input' style={this.state.email === 'err' ? { borderBottomColor: 'red' } : null} placeholder="для квитанции об оплате" type="email" onChange={this.changeEmail} />
+                        <input id="email" className='card-payment-input' style={this.state.email === null ? { borderBottomColor: 'red' } : null} placeholder="для квитанции об оплате" type="email" onChange={this.changeEmail} />
                         <p>Ваша эл.почта</p>
                     </article>
-                    <div class="button25" onClick={this.sendToServer}>заплатить</div>
+                    <div className={this.canSend() ? "button25" : "button25disabled"} onClick={this.sendToServer}>заплатить</div>
                 </div>
             </div>
         );

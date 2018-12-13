@@ -13,5 +13,17 @@ export default {
 
     deleteNote(noteId) {
         return axios.delete(`${apiPrefix}/notes/${noteId}`);
+    },
+
+    listNotesPay() {
+        return axios.get(`${apiPrefix}/notesPay`);
+    },
+
+    createNotePay(data) {
+        return axios.post(`${apiPrefix}/notesPay`, data);
+    },
+
+    deleteNotePay(noteId) {
+        return axios.delete(`${apiPrefix}/notesPay/${noteId}`);
     }
 }

@@ -73,7 +73,7 @@ class Pay extends Component {
         if (value.indexOf('@') > 0)
             this.setState({ email: value });
         else
-            this.setState({ email: 'err' });
+            this.setState({ email: null});
     }
 
     changePhoneNum() {
@@ -106,11 +106,11 @@ class Pay extends Component {
 
     canSend() {
         return this.state.inn 
-            || this.state.scoreNum
-            || this.state.description
-            || this.state.sum
-            || this.state.email
-            || this.state.phoneNum
+            && this.state.scoreNum
+            && this.state.description
+            && this.state.sum
+            && this.state.email
+            && this.state.phoneNum
     }
 
     sendToServer() {
@@ -127,7 +127,7 @@ class Pay extends Component {
             email: this.state.email,
             phoneNum: this.state.phoneNum
         };
-        NotesActions.createNote(newNote);
+        NotesActions.createNotePay(newNote);
 
         this.clearFields()
         
@@ -176,7 +176,7 @@ class Pay extends Component {
                         <input id="email" className='internet-bank-input' placeholder='для уведомлений об оплате' type="email" onChange={this.changeEmail}/>
                         <p>Эл.почта</p>
                     </article>
-                    <div className="button25" onClick={this.sendToServer}>Создать платеж</div>
+                    <div className={this.canSend() ? "button25" : "button25disabled"} onClick={this.sendToServer}>Создать платеж</div>
                     <br />
                     <div className='clear'>
                         <a className='clear' href='/#/home' onClick={this.clearFields}>Отчистить форму</a>

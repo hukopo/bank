@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Bank.css';
 import Payment from './Payment';
+import Advertising from './Advertising'
 
 class Bank extends Component {
   render() {
@@ -25,6 +26,9 @@ class Bank extends Component {
           <body>
             <Payment/>
           </body>
+          <footer>
+            <Advertising/>
+          </footer>
         </div>
       </div>
     );

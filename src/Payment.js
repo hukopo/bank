@@ -37,17 +37,17 @@ class Payment extends Component {
         return (
             <div className='header'>
                 <div>
-                    <div className='tab' style={this.state.tabName === 'pay' ? { color: 'deepskyblue' } : {}} onClick={this.switchPay}>Заплатить</div>
-                    <div className='tab' style={this.state.tabName === 'request payment' ? { color: 'deepskyblue' } : {}} onClick={this.switchRequestPayment}>Запросить платеж</div>
+                    <div className='tab' style={this.state.tabName === 'pay' ? { color: 'black' } : {}} onClick={this.switchPay}>Заплатить</div>
+                    <div className='tab' style={this.state.tabName === 'request payment' ? { color: 'black' } : {}} onClick={this.switchRequestPayment}>Запросить платеж</div>
                 </div>
                 <br/>
-                { this.state.tabName === 'request payment' && <div>
-                    <div className='tab' style={this.state.paymentMethod === 'card' ? { color: 'deepskyblue' } : {}} onClick={this.switchPaymentMethodOnCard}>С карты любого банка</div>
-                    <div className='tab' style={this.state.paymentMethod === 'Internet bank' ? { color: 'deepskyblue' } : {}} onClick={this.switchPaymentMethodOnInternetBank}>Из своего интерент банка</div>
+                { this.state.tabName === 'pay' && <div>
+                    <div className='tab' style={this.state.paymentMethod === 'card' ? { color: 'black' } : {}} onClick={this.switchPaymentMethodOnCard}>С карты любого банка</div>
+                    <div className='tab' style={this.state.paymentMethod === 'Internet bank' ? { color: 'black' } : {}} onClick={this.switchPaymentMethodOnInternetBank}>Из своего интерент банка</div>
                 </div>}
-                { (this.state.tabName === 'request payment' && this.state.paymentMethod === 'card') && <CardPayment/>}
-                { (this.state.tabName === 'request payment' && this.state.paymentMethod === 'Internet bank') && <InternetBankPayment/>}
-                { this.state.tabName === 'pay' && <Pay/>}
+                { (this.state.tabName === 'pay' && this.state.paymentMethod === 'card') && <CardPayment/>}
+                { (this.state.tabName === 'pay' && this.state.paymentMethod === 'Internet bank') && <InternetBankPayment/>}
+                { this.state.tabName === 'request payment' && <Pay/>}
             </div>
         );
     }

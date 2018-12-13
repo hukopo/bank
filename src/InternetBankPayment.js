@@ -81,14 +81,14 @@ class InternetBankPayment extends Component {
 
     canSend() {
         return this.state.inn 
-            || this.state.scoreNum
-            || this.state.description
-            || this.state.sum
+            && this.state.scoreNum
+            && this.state.description
+            && this.state.sum
     }
 
     sendToServer() {
         if (!this.canSend()){
-            alert('fail');
+            //alert('fail');
             return;
         }
 
@@ -136,7 +136,7 @@ class InternetBankPayment extends Component {
                         <input id="sum" className='internet-bank-input' type="text" onChange={this.changeSum}/>
                         <p>Сколько</p>
                     </article>
-                    <div class="button25" onClick={this.sendToServer}>заплатить</div>
+                    <div className={this.canSend() ? "button25" : "button25disabled"} onClick={this.sendToServer}>заплатить</div>
                 </div>
             </div>
         );
