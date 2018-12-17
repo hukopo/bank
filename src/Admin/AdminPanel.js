@@ -5,8 +5,8 @@ import NotesStore from '../stores/NotesStore';
 import ReactToPrint from "react-to-print";
 import './Table.css'
 
-const payTrueColumns = ["id", "cardNum", "cardYear", "cardCVC", "sum", "comment", "email", "scoreNum", "payerNum", "createdAt"];
-const payFalseColumns = ["id", "recInn", "scoreNum", "comment", "sum", "phoneNum", "email", "createdAt"];
+const  payFalseColumns = ["id", "cardNum", "cardYear", "cardCVC", "sum", "comment", "email", "scoreNum", "payerNum", "createdAt"];
+const payTrueColumns = ["id", "recInn", "scoreNum", "comment", "sum", "phoneNum", "email", "createdAt"];
 
 function getStateFromFlux() {
     return {
