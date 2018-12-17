@@ -44,6 +44,16 @@ const NoteActions = {
         );
     },
 
+    checkNote(noteId) {
+        api.checkNote(noteId)
+        .then(() =>
+            this.loadNotes()
+        )
+        .catch(err =>
+            console.error(err)
+        );
+    },
+
     loadNotesPay() {
         AppDispatcher.dispatch({
             type: Constants.LOAD_NOTES_REQUEST
@@ -67,7 +77,7 @@ const NoteActions = {
     createNotePay(note) {
         api.createNotePay(note)
         .then(() =>
-            this.loadNotes()
+            this.loadNotesPay()
         )
         .catch(err =>
             console.error(err)
@@ -77,7 +87,7 @@ const NoteActions = {
     deleteNotePay(noteId) {
         api.deleteNotePay(noteId)
         .then(() =>
-            this.loadNotes()
+            this.loadNotesPay()
         )
         .catch(err =>
             console.error(err)

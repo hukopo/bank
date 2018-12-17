@@ -15,6 +15,10 @@ export default {
         return axios.delete(`${apiPrefix}/notes/${noteId}`);
     },
 
+    checkNote(noteId) {
+        return axios.post(`${apiPrefix}/ggupdate/${noteId}`);
+    },
+
     listNotesPay() {
         return axios.get(`${apiPrefix}/notesPay`);
     },
@@ -25,5 +29,9 @@ export default {
 
     deleteNotePay(noteId) {
         return axios.delete(`${apiPrefix}/notesPay/${noteId}`);
+    },
+
+    checkNotePay(noteId) {
+        return axios.post(`${apiPrefix}/ggupdatepay/${noteId}`);
     }
 }

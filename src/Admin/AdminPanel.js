@@ -84,8 +84,8 @@ class AdminPanel extends Component {
         return (
             <div className='card-payment'>
                 <div>
-                    <div className='tab' style={this.state.pay ? { color: 'black' } : {}} onClick={this.state.pay ? null : this.switchPay}>Запросить платеж</div>
-                    <div className='tab' style={!this.state.pay ? { color: 'black' } : {}} onClick={this.state.pay ? this.switchRequestPayment : null}>Заплатить</div>
+                    <div className='taba' style={this.state.pay !== true ? { color: 'deepskyblue' } : {}} onClick={this.state.pay ? null : this.switchPay}>Запросить платеж</div>
+                    <div className='taba' style={this.state.pay !== false ? { color: 'deepskyblue' } : {}} onClick={this.state.pay ? this.switchRequestPayment : null}>Заплатить</div>
                 </div>
                 <button onClick={this.display}>write to console</button>
                 {this.state.pay !== null && <PDFPrinterForPay notes={this.state.notes} pay={this.state.pay} />}
@@ -106,6 +106,7 @@ class NotesTable extends React.Component {
             pay: this.props.pay
         }
         this.handleNoteDelete = this.handleNoteDelete.bind(this);
+        this.handleNoteCheck = this.handleNoteCheck.bind(this);
     }
 
     handleNoteDelete(note) {
@@ -113,6 +114,13 @@ class NotesTable extends React.Component {
             NotesActions.deleteNote(note.id);
         else
             NotesActions.deleteNotePay(note.id);
+    }
+
+    handleNoteCheck(note) {
+        if (this.state.pay === true)
+            NotesActions.checkNote(note.id);
+        else
+            NotesActions.checkNotePay(note.id);
     }
 
     render() {
@@ -134,7 +142,7 @@ class NotesTable extends React.Component {
                         </tr>
                         {this.props.notes && this.props.notes.map((n, i) =>
                             <tr key={i}>
-                                <td style={{ backgroundColor: 'brown', cursor: 'pointer' }} onClick={() => this.handleNoteDelete(n)}>del</td>
+                                <td style={{ backgroundColor: 'brown', cursor: 'pointer' }} onClick={() => NotesActions.deleteNotePay(n.id)}>del</td>
                                 <td style={{ backgroundColor: 'whitesmoke' }}>{n.id}</td>
                                 <td>{n.recInn}</td>
                                 <td>{n.scoreNum}</td>
@@ -147,35 +155,37 @@ class NotesTable extends React.Component {
                     </table>
                     :
                     <table border="1">
-                <caption>Таблица заметок платежей</caption>
-                <tr>
-                    <th></th>
-                    <th>id</th>
-                    <th>cardNum</th>
-                    <th>cardYear</th>
-                    <th>cardCVC</th>
-                    <th>sum</th>
-                    <th>comment</th>
-                    <th>email</th>
-                    <th>scoreNum</th>
-                    <th>payerNum</th>
-                    <th>createdAt</th>
-                </tr>
-                {this.props.notes && this.props.notes.map((n, i) =>
-                    <tr key={i}>
-                        <td style={{ backgroundColor: 'brown', cursor: 'pointer' }} onClick={() => this.handleNoteDelete(n)}>del</td>
-                        <td style={{ backgroundColor: 'whitesmoke' }}>{n.id}</td>
-                        <td>{n.cardNum}</td>
-                        <td>{n.cardYear}</td>
-                        <td>{n.cardCVC}</td>
-                        <td>{n.sum}</td>
-                        <td>{n.comment}</td>
-                        <td>{n.email}</td>
-                        <td>{n.scoreNum}</td>
-                        <td>{n.payerNum}</td>
-                        <td>{n.createdAt}</td>
-                    </tr>)}
-            </table>}
+                        <caption>Таблица заметок платежей</caption>
+                        <tr>
+                            <th></th>
+                            <th>id</th>
+                            <th>cardNum</th>
+                            <th>cardYear</th>
+                            <th>cardCVC</th>
+                            <th>sum</th>
+                            <th>comment</th>
+                            <th>email</th>
+                            <th>scoreNum</th>
+                            <th>payerNum</th>
+                            <th>createdAt</th>
+                            <th></th>
+                        </tr>
+                        {this.props.notes && this.props.notes.map((n, i) =>
+                            <tr style={n.check ? { background: 'yellow' } : {}} key={i}>
+                                <td style={{ backgroundColor: 'brown', cursor: 'pointer' }} onClick={() => this.handleNoteDelete(n)}>del</td>
+                                <td style={{ backgroundColor: 'whitesmoke' }}>{n.id}</td>
+                                <td>{n.cardNum}</td>
+                                <td>{n.cardYear}</td>
+                                <td>{n.cardCVC}</td>
+                                <td>{n.sum}</td>
+                                <td>{n.comment}</td>
+                                <td>{n.email}</td>
+                                <td>{n.scoreNum}</td>
+                                <td>{n.payerNum}</td>
+                                <td>{n.createdAt}</td>
+                                <td style={{ backgroundColor: 'pink', cursor: 'pointer' }} onClick={() => this.handleNoteCheck(n)}>check</td>
+                            </tr>)}
+                    </table>}
             </div>
         );
     }
@@ -189,7 +199,7 @@ class PDFPrinterForPay extends React.Component {
             <div>
                 <ReactToPrint
                     // eslint-disable-next-line
-                    trigger={() => <a href="#">Print to pdf</a>}
+                    trigger={() => <a href="#/admin">Print to pdf</a>}
                     content={() => this.componentRef}
                 />
                 <NotesTable ref={el => (this.componentRef = el)}

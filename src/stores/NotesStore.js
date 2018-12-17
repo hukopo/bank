@@ -23,6 +23,7 @@ function formatNote(note) {
         scoreNum: note.scoreNum || 'EMPTY',
         phoneNum: note.phoneNum || 'EMPTY',
         payerNum: note.payerNum || 'EMPTY',
+        check: note.check,
         createdAt: note.createdAt
     };
 }
