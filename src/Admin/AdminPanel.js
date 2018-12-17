@@ -5,6 +5,9 @@ import NotesStore from '../stores/NotesStore';
 import ReactToPrint from "react-to-print";
 import './Table.css'
 
+const payTrueColumns = ["id", "cardNum", "cardYear", "cardCVC", "sum", "comment", "email", "scoreNum", "payerNum", "createdAt"];
+const payFalseColumns = ["id", "recInn", "scoreNum", "comment", "sum", "phoneNum", "email", "createdAt"];
+
 function getStateFromFlux() {
     return {
         isLoading: NotesStore.isLoading(),
@@ -18,7 +21,10 @@ class AdminPanel extends Component {
         this.state = {
             pay: null,
             isLoading: {},
-            notes: []
+            notes: [],
+            searchField: "id",
+            sortField: "id",
+            search: ""
         }
         this.getInitialState = this.getInitialState.bind(this);
         this.componentWillMount = this.componentWillMount.bind(this);
@@ -30,6 +36,9 @@ class AdminPanel extends Component {
         this.display = this.display.bind(this);
         this.switchRequestPayment = this.switchRequestPayment.bind(this);
         this.switchPay = this.switchPay.bind(this);
+        this.onChangeSearchInput = this.onChangeSearchInput.bind(this);
+        this.onChangeSearchSelect = this.onChangeSearchSelect.bind(this);
+        this.onChangeSortSelect = this.onChangeSortSelect.bind(this);
     }
 
     switchRequestPayment() {
@@ -51,7 +60,6 @@ class AdminPanel extends Component {
             NotesActions.loadNotes();
         else
             NotesActions.loadNotesPay();
-
     }
 
     componentDidMount() {
@@ -76,21 +84,56 @@ class AdminPanel extends Component {
             NotesActions.createNotePay(noteData);
     }
 
+    onChangeSearchInput() {
+        let newValue = document.getElementById("search-input").value;
+        this.setState({ search: newValue });
+        document.getElementById("search-input").value = newValue;
+    }
+
+    onChangeSearchSelect() {
+        let newValue = document.getElementById("search-select").value;
+        this.setState({ searchField: newValue });
+    }
+
+    onChangeSortSelect() {
+        let newValue = document.getElementById("sort-select").value;
+        this.setState({ sortField: newValue });
+    }
+
     display() {
         console.table(this.state.notes);
     }
 
     render() {
+        let newNotes = this.state.notes;
+        newNotes = newNotes.filter(n => n[this.state.searchField].includes(this.state.search)).sort((a, b) => a[this.state.sortField] < b[this.state.sortField] ? -1 : 1)
         return (
             <div className='card-payment'>
-                <div>
-                    <div className='taba' style={this.state.pay !== true ? { color: 'deepskyblue' } : {}} onClick={this.state.pay ? null : this.switchPay}>Запросить платеж</div>
-                    <div className='taba' style={this.state.pay !== false ? { color: 'deepskyblue' } : {}} onClick={this.state.pay ? this.switchRequestPayment : null}>Заплатить</div>
-                </div>
-                <button onClick={this.display}>write to console</button>
-                {this.state.pay !== null && <PDFPrinterForPay notes={this.state.notes} pay={this.state.pay} />}
-                {/*this.state.pay && <PDFPrinterForPay notes={this.state.notes} />*/}
-            </div>
+                {this.state.pay === null ? <div className='taba' style={this.state.pay !== true ? { color: 'deepskyblue' } : {}} onClick={this.state.pay === null ? this.switchPay : null}>Загрузить таблицы</div> :
+                    <div>
+                        <div className='taba' style={this.state.pay !== true ? { color: 'deepskyblue' } : {}} onClick={this.state.pay ? null : this.switchPay}>Запросить платеж</div>
+                        <div className='taba' style={this.state.pay !== false ? { color: 'deepskyblue' } : {}} onClick={this.state.pay ? this.switchRequestPayment : null}>Заплатить</div>
+                    </div>}
+                {this.state.pay &&<button onClick={this.display}>write to console</button>}
+                {this.state.pay !== null &&
+                    <div>
+                        search
+                        <select id="search-select" style={{ margin: "10px" }} onChange={this.onChangeSearchSelect}>
+                            {this.state.pay === false && payFalseColumns.map(o => <option>{o}</option>)}
+                            {this.state.pay === true && payTrueColumns.map(o => <option>{o}</option>)}
+                        </select>
+                        <input id="search-input" onChange={this.onChangeSearchInput} />
+                    </div>}
+                {this.state.pay !== null &&
+                    <div>
+                        sort
+                        <select id="sort-select" style={{ margin: "10px" }} onChange={this.onChangeSortSelect}>
+                            {this.state.pay === false && payFalseColumns.map(o => <option>{o}</option>)}
+                            {this.state.pay === true && payTrueColumns.map(o => <option>{o}</option>)}
+                        </select>
+                    </div>}
+                {this.state.pay !== null && <PDFPrinterForPay notes={newNotes} pay={this.state.pay} />}
+            </div >
         );
     }
 

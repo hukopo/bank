@@ -1,7 +1,7 @@
 .main{
   margin: -10px 10%;
-  min-width: 900px;
-  max-width: 1200px;
+  max-width: 1070px;
+  min-width: 630px;
   border-right: 4px solid whitesmoke;
   border-left: 4px solid whitesmoke;
   padding: 0 40px;
@@ -21,4 +21,21 @@
 
 .header > div > a {
   margin-left: 20px;
+}
+
+.reclam {
+  width: 450px;
+  margin: 4px;
+  padding: 2px;
+  border: 2px solid whitesmoke;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.reclam > p {
+  text-align: center;
+}
+
+.reclam > img {
+  margin-left: 150px;
 }

@@ -43,28 +43,28 @@ div.button25:active {
 small {
     float: right;
     margin-left: 10px;
-    margin-top: 29px;
     color: gray;
 }
 
 .purpose-payment {
-    margin-right: -130px;
+    margin-top: 32px; 
+    margin-right: -180px; 
+}
+
+.rnds {
+    margin-top: 15px;
+}
+
+.pument {
+    margin-top: -10px;
 }
 
 .phone-small {
     margin-top: 0px;
 }
 
-.nds18 {
-    margin-right: -70px;
-}
-
-.nds10 {
-    margin-right: -130px;
-}
-
-.nds-none {
-    margin-right: -190px;
+.field-internet-bank > small{
+    display: inline-block;
 }
 
 .nds-input {

@@ -24,12 +24,6 @@
     border-bottom: 1px solid #000;
 }
 
-.creedit-card
-{
-    height: 300px;
-    width: 500px;
-}
-
 .creedit-card .card-payment-input
 {
     border-bottom: 1px solid gray; 
@@ -40,12 +34,23 @@
     margin: 5%;
 }
 
+.card-payment > .discrepyion-payment
+{
+    display: inline-block;
+}
+
+.card-payment > .creedit-card
+{
+    display: inline-block;
+}
+
 .creedit-card{
     height: 200px;
     width: 400px;
     background: whitesmoke;
     box-shadow: 0 0 30px gray;
-    border-radius: 20px; 
+    border-radius: 20px;
+    margin-right: 30px; 
 }
 
 .creedit-card > .card-number
@@ -80,8 +85,7 @@
 
 .discrepyion-payment
 {
-    margin-left: 450px;
-    margin-top: -230px;
+    padding-top: 10px; 
     width: 400px;
 }
 

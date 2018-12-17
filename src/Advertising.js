@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './Bank.css';
 
 class Advertising extends Component {
     constructor() {
@@ -10,8 +11,21 @@ class Advertising extends Component {
     render() {
         return (
             <div>
-                <div>
-                    
+                <div className="reclam">
+                    <img alt="shark not found" height='200px' src="./shark.jpg" />
+                    <p>купание с акулками</p>
+                </div>
+                <div className="reclam">
+                    <img alt="shark not found" height='200px' src="./shark.jpg" />
+                    <p>купание с акулками</p>
+                </div>
+                <div className="reclam">
+                    <img alt="shark not found" height='200px' src="./shark.jpg" />
+                    <p>купание с акулками</p>
+                </div>
+                <div className="reclam">
+                    <img alt="shark not found" height='200px' src="./shark.jpg" />
+                    <p>купание с акулками</p>
                 </div>
             </div>
         );

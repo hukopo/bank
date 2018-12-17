@@ -155,10 +155,10 @@ class Pay extends Component {
 
                     <article className="field-internet-bank">
                         <input id="description" className='nds-input' placeholder={`НДС ${this.state.nds}%`} type="text" onChange={this.changeDescription}/>
-                        <small onClick={() => this.switchNDS(18)} style={this.state.nds === 18 ? { color: 'deepskyblue' } : null} className='nds18'>НДС 18%</small>
-                        <small onClick={() => this.switchNDS(10)} style={this.state.nds === 10 ? { color: 'deepskyblue' } : null} className='nds10'>НДС 10%</small>
-                        <small onClick={() => this.switchNDS(0)} style={this.state.nds === 0 ? { color: 'deepskyblue' } : null} className='nds-none'>Без НДС</small>
                         <p>За что</p>
+                        <small onClick={() => this.switchNDS(18)} style={this.state.nds === 18 ? { color: 'deepskyblue' } : null} className='nds18 pument'>НДС 18%</small>
+                        <small onClick={() => this.switchNDS(10)} style={this.state.nds === 10 ? { color: 'deepskyblue' } : null} className='nds10 pument'>НДС 10%</small>
+                        <small onClick={() => this.switchNDS(0)} style={this.state.nds === 0 ? { color: 'deepskyblue' } : null} className='nds-none pument'>Без НДС</small>
                     </article>
 
                     <article className="field-internet-bank">
