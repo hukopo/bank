@@ -33,5 +33,13 @@ export default {
 
     checkNotePay(noteId) {
         return axios.post(`${apiPrefix}/ggupdatepay/${noteId}`);
+    },
+
+    createUser(data) {
+        return axios.post(`${apiPrefix}/user`, data);
+    },
+
+    auth(login, password) {
+        return axios.post(`${apiPrefix}/auth/${login}/${password}`);
     }
 }

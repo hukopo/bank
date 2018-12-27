@@ -5,7 +5,7 @@ import NotesStore from '../stores/NotesStore';
 import ReactToPrint from "react-to-print";
 import './Table.css'
 
-const  payFalseColumns = ["id", "cardNum", "cardYear", "cardCVC", "sum", "comment", "email", "scoreNum", "payerNum", "createdAt"];
+const payFalseColumns = ["id", "cardNum", "cardYear", "cardCVC", "sum", "comment", "email", "scoreNum", "payerNum", "createdAt"];
 const payTrueColumns = ["id", "recInn", "scoreNum", "comment", "sum", "phoneNum", "email", "createdAt"];
 
 function getStateFromFlux() {
@@ -24,7 +24,9 @@ class AdminPanel extends Component {
             notes: [],
             searchField: "id",
             sortField: "id",
-            search: ""
+            search: "",
+            auth: false,
+            authError: null
         }
         this.getInitialState = this.getInitialState.bind(this);
         this.componentWillMount = this.componentWillMount.bind(this);
@@ -39,6 +41,8 @@ class AdminPanel extends Component {
         this.onChangeSearchInput = this.onChangeSearchInput.bind(this);
         this.onChangeSearchSelect = this.onChangeSearchSelect.bind(this);
         this.onChangeSortSelect = this.onChangeSortSelect.bind(this);
+        this.signIn = this.signIn.bind(this);
+        this.passwordAndLoginCheck = this.passwordAndLoginCheck.bind(this);
     }
 
     switchRequestPayment() {
@@ -104,36 +108,80 @@ class AdminPanel extends Component {
         console.table(this.state.notes);
     }
 
+    passwordAndLoginCheck(login, password) {
+        if (login === "" || password === "" || login.includes(" ") || password.includes(" ")) {
+            this.setState({ authError: "login or password can`t conyain space" });
+            return false;
+        }
+        else {
+            this.setState({ authError: null });
+            return true;
+        }
+    }
+
+    signIn() {
+        let login = document.getElementById("login").value;
+        let password = document.getElementById("password").value;
+        if (this.passwordAndLoginCheck(login, password)) {
+            //const user = {
+            //    login: "1",
+            //    password: "1"
+            //};
+            //NotesActions.createUser(user);       
+            //let flag = false;
+            NotesActions.signIN(login, password).then(a => a.data ? this.setState({ auth: true}) : this.setState({authError: "incorect login or password"}));
+        }
+        //this.setState({ auth: true });
+    }
+
     render() {
         let newNotes = this.state.notes;
         newNotes = newNotes.filter(n => n[this.state.searchField].includes(this.state.search)).sort((a, b) => a[this.state.sortField] < b[this.state.sortField] ? -1 : 1)
         return (
             <div className='card-payment'>
-                {this.state.pay === null ? <div className='taba' style={this.state.pay !== true ? { color: 'deepskyblue' } : {}} onClick={this.state.pay === null ? this.switchPay : null}>Загрузить таблицы</div> :
+                {!this.state.auth ?
                     <div>
-                        <div className='taba' style={this.state.pay !== true ? { color: 'deepskyblue' } : {}} onClick={this.state.pay ? null : this.switchPay}>Запросить платеж</div>
-                        <div className='taba' style={this.state.pay !== false ? { color: 'deepskyblue' } : {}} onClick={this.state.pay ? this.switchRequestPayment : null}>Заплатить</div>
-                    </div>}
-                {this.state.pay &&<button onClick={this.display}>write to console</button>}
-                {this.state.pay !== null &&
+                        <div>
+                            sign in
+                            <br />
+                            <input id="login" />
+                            <br />
+                            <input type="password" id="password" />
+                            <br />
+                            <button onClick={this.signIn}>sign in</button>
+                        </div>
+                        {this.state.authError !== null &&
+                            <div style={{ color: "red", background: "pink" }}>
+                                <h3>Error: {this.state.authError}</h3>
+                            </div>}
+                    </div> :
                     <div>
-                        search
+                        {this.state.pay === null ? <div className='taba' style={this.state.pay !== true ? { color: 'deepskyblue' } : {}} onClick={this.state.pay === null ? this.switchPay : null}>Загрузить таблицы</div> :
+                            <div>
+                                <div className='taba' style={this.state.pay !== true ? { color: 'deepskyblue' } : {}} onClick={this.state.pay ? null : this.switchPay}>Запросить платеж</div>
+                                <div className='taba' style={this.state.pay !== false ? { color: 'deepskyblue' } : {}} onClick={this.state.pay ? this.switchRequestPayment : null}>Заплатить</div>
+                            </div>}
+                        {this.state.pay && <button onClick={this.display}>write to console</button>}
+                        {this.state.pay !== null &&
+                            <div>
+                                search
                         <select id="search-select" style={{ margin: "10px" }} onChange={this.onChangeSearchSelect}>
-                            {this.state.pay === false && payFalseColumns.map(o => <option>{o}</option>)}
-                            {this.state.pay === true && payTrueColumns.map(o => <option>{o}</option>)}
-                        </select>
-                        <input id="search-input" onChange={this.onChangeSearchInput} />
-                    </div>}
-                {this.state.pay !== null &&
-                    <div>
-                        sort
+                                    {this.state.pay === false && payFalseColumns.map(o => <option>{o}</option>)}
+                                    {this.state.pay === true && payTrueColumns.map(o => <option>{o}</option>)}
+                                </select>
+                                <input id="search-input" onChange={this.onChangeSearchInput} />
+                            </div>}
+                        {this.state.pay !== null &&
+                            <div>
+                                sort
                         <select id="sort-select" style={{ margin: "10px" }} onChange={this.onChangeSortSelect}>
-                            {this.state.pay === false && payFalseColumns.map(o => <option>{o}</option>)}
-                            {this.state.pay === true && payTrueColumns.map(o => <option>{o}</option>)}
-                        </select>
+                                    {this.state.pay === false && payFalseColumns.map(o => <option>{o}</option>)}
+                                    {this.state.pay === true && payTrueColumns.map(o => <option>{o}</option>)}
+                                </select>
+                            </div>}
+                        {this.state.pay !== null && <PDFPrinterForPay notes={newNotes} pay={this.state.pay} />}
                     </div>}
-                {this.state.pay !== null && <PDFPrinterForPay notes={newNotes} pay={this.state.pay} />}
-            </div >
+            </div>
         );
     }
 

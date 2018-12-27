@@ -92,6 +92,21 @@ const NoteActions = {
         .catch(err =>
             console.error(err)
         );
+    },
+
+    signIN(login, password) {
+        return api.auth(login, password);
+        
+    },
+
+    createUser(user) {
+        api.createUser(user)
+        .then(() =>
+            this.loadNotes()
+        )
+        .catch(err =>
+            console.error(err)
+        );
     }
 };
 
